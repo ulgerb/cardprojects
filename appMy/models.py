@@ -23,9 +23,10 @@ class Card(models.Model):
         return self.title
     
 class Comments(models.Model):
+    card = models.ForeignKey(Card, verbose_name=("Kart"), on_delete=models.CASCADE, null=True)
     name = models.CharField(("Ad Soyad"), max_length=80)
     email = models.EmailField(("Email"), max_length=254)
     comment = models.TextField(("Yorum"), max_length=500)
 
     def __str__(self):
-        return self.title
+        return self.name

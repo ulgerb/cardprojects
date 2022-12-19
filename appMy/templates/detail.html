@@ -78,7 +78,21 @@
         </div>
         <hr>
         <div class="row mt-5 ms-4">
-            <div class="col-6">
+            <div class="col-7">
+                <h3>Yorumlar</h3>
+                
+                {% for i in comments %}
+                <div class="commentsall">
+                    <span class="me-5">Ad Soyad: {{ i.name }}</span>
+                    <span>Email: {{ i.email }}</span>
+                    <hr>
+                    <p>{{ i.comment }}</p>
+
+                </div>
+                {% endfor %}
+                    
+            </div>
+            <div class="col-7">
                 <h3>Yorum Yap</h3>
                 <ul>
                     <li>formun methodu POST olucak</li>
@@ -104,6 +118,8 @@
                 </form>
             </div>
         </div>
+
+
     </main>
 
 
