@@ -1,11 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, HttpResponseRedirect
 from .models import *
+from django.db.models import Q # ve veya işlemlerini kullanılmasına izin verir
 
 # Create your views here.
 
 def index(request):
     cards = Card.objects.all()
     kategoriler = Category.objects.all()
+    
+    query = request.GET.get('q')
+    if query:
+        cards = Card.objects.filter(Q(title__icontains=query) | Q(text__icontains=query))
     
     context={   
         "cards":cards,
@@ -17,6 +22,12 @@ def Detail(request,id):
     card = Card.objects.get(id=id) # tek ürün istiyoruz
     comments = Comments.objects.filter(card = id)
     
+    query = request.GET.get('q')
+    if query:
+        cards = Card.objects.filter(Q(title__icontains=query) | Q(text__icontains=query))
+        return render(request,'allcard.html',{'cards':cards})
+        
+    
     if request.method == "POST": 
         name = request.POST["name"]
         email = request.POST["email"]
@@ -24,6 +35,8 @@ def Detail(request,id):
         
         comm = Comments(name=name, email=email, comment=comment,card=card )
         comm.save()
+        return HttpResponseRedirect('/detay/{}/'.format(id))  # yönlendirme
+        
         
     context={
         "card": card,
@@ -35,6 +48,10 @@ def allCard(request,id="all"):
     
     cards = Card.objects.all()
     kategoriler = Category.objects.all()
+
+    query = request.GET.get('q')
+    if query:
+        cards = Card.objects.filter(Q(title__icontains=query) | Q(text__icontains=query))
 
     if id.isnumeric():
         cards = Card.objects.filter(category=id)
