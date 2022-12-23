@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from .models import *
 from django.db.models import Q # ve veya işlemlerini kullanılmasına izin verir
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -11,6 +12,8 @@ def index(request):
     query = request.GET.get('q')
     if query:
         cards = Card.objects.filter(Q(title__icontains=query) | Q(text__icontains=query))
+    
+    
     
     context={   
         "cards":cards,
@@ -55,6 +58,11 @@ def allCard(request,id="all"):
 
     if id.isnumeric():
         cards = Card.objects.filter(category=id)
+    
+    # Paginator
+    paginator = Paginator(cards, 2)
+    page_number = request.GET.get('page')
+    cards = paginator.get_page(page_number)
     
     context = {
         "cards": cards,

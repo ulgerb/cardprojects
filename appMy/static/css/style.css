@@ -8,7 +8,15 @@ body,html{
     margin: 0;
     padding: 0;
 }
-
+.header{
+    background: #000000dd;
+}
+.header .nav-link{
+    color: white !important;
+}
+.header .nav-item{
+    margin: 0px 20px 0px 20px;
+}
 .detailimg{
     width: 100%;
     height: 500px;

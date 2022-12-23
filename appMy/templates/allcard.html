@@ -22,6 +22,24 @@
                     </a>
                 </div>
                 {% endfor %}
+                <!-- paginator -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center mt-5">
+                        {% if cards.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ cards.previous_page_number }}">Previous</a></li>
+                        {% endif %}
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ cards.number }}">{{ cards.number }}</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        {% if cards.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ cards.next_page_number }}">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ cards.paginator.num_pages }}">Last</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+
+                <!-- paginator -->
             </div>
             <div class="row col-4 mt-5">
                 <div class="col-12 mt-5">
@@ -36,6 +54,9 @@
                 </div>
             </div>
         </div>
+        <br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br>
     </main>
 {% endblock body %}
     
