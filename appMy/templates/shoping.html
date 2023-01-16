@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block css %}
+
+<style>
+    .clear {
+        clear: both;
+    }
+
+    .body-container {
+        width: 100%;
+        position: relative;
+    }
+
+    .body-container .products {
+        width: 100%;
+    }
+
+    .body-container .products .product {
+        background-color: #DE4800;
+        color: white;
+        margin: 15px 0px;
+        padding: 15px;
+    }
+
+    .body-container .products .product img {
+        float: left;
+        margin: 0px 15px 0px 0px;
+    }
+
+    .body-container .products .product button {
+        margin: 15px 0px 0px 0px;
+        background-color: black;
+        color: white;
+        border: 0px;
+        border-radius: 10px;
+        padding: 5px 10px;
+    }
+
+    .body-container .products .product button:hover {
+        background-color: #C02800;
+        cursor: pointer;
+    }
+
+    .body-container .basket-container {
+        position: fixed;
+        top: 75px;
+        right: 15px;
+        height: 50px;
+        border-radius: 30px;
+        background-color: black;
+        color: black;
+        padding: 15px;
+        transition: width 0.5s, height 0.5s, top 0.2s;
+    }
+
+    .body-container .basket-container .basket-icon {
+        color: white;
+        position: absolute;
+        top: 13px;
+        right: 17px;
+    }
+
+    .body-container .basket-container .basket-icon:hover {
+        color: #C02800;
+        cursor: pointer;
+    }
+
+    .body-container .basket-container .basket-count {
+        width: 25px;
+        height: 25px;
+        z-index: 2;
+        background-color: #C02800;
+        border-radius: 10px;
+        text-align: center;
+        position: absolute;
+        top: -5px;
+        right: -5px;
+    }
+
+    .body-container .basket-container .basket-count p {
+        padding: 0px;
+        margin: 2px 0px 0px 0px;
+        color: white;
+        font-size: 0.9rem;
+    }
+
+    .body-container .basket-container .basket-content {
+        opacity: 0;
+        width: 0px;
+        overflow: hidden;
+        transition: opacity 0.2s;
+        transition-delay: 0.4s;
+    }
+
+    .body-container .basket-container .basket-content .basket-products {
+        border-top: 1px solid white;
+        border-bottom: 1px solid white;
+        height: 200px;
+        overflow-y: auto;
+    }
+
+    .body-container .basket-container .basket-content .basket-products ul {
+        list-style-type: none;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .body-container .basket-container .basket-content .basket-products ul li {
+        width: 100%;
+        padding: 10px 0px;
+    }
+
+    .body-container .basket-container .basket-content .basket-products ul li input {
+        margin-right: 5px;
+        width: 50px;
+        height: 20px;
+    }
+
+    .body-container .basket-container .basket-content .basket-products ul li .remove-product {
+        color: #C02800;
+        margin-right: 5px;
+    }
+
+    .body-container .basket-container .basket-content .basket-products ul li .remove-product:hover {
+        color: #DE4800;
+        cursor: pointer;
+    }
+
+    .body-container .basket-container .basket-content .basket-products ul li .amount {
+        float: right;
+        margin-right: 5px;
+    }
+
+    .body-container .basket-container .basket-content .basket-total-amount {
+        margin-top: 5px;
+        float: right;
+    }
+
+    .body-container .basket-container .basket-content .basket-total {
+        margin-top: 5px;
+        float: left;
+    }
+
+    .body-container .basket-container .basket-content .basket-checkout {
+        background-color: #C02800;
+        color: white;
+        border: 0px;
+        padding: 5px 10px;
+        border-radius: 10px;
+        float: right;
+    }
+
+    .body-container .basket-container .basket-content .basket-checkout:hover {
+        background-color: #DE4800;
+        cursor: pointer;
+    }
+
+    .body-container .basket-scrolling {
+        top: 15px;
+    }
+
+    .body-container .open-basket {
+        height: 360px;
+        color: white;
+    }
+
+    .body-container .open-basket .basket-content {
+        opacity: 1;
+        width: 100%;
+    }
+
+    .body-container .header {
+        width: 100%;
+        height: 50px;
+        background-color: #000;
+        color: white;
+    }
+
+    .body-container .header ul {
+        float: right;
+        list-style-type: none;
+        margin: 15px 15px 0px 0px;
+    }
+
+    .body-container .header ul li {
+        display: inline;
+        margin: 0px 0px 0px 10px;
+    }
+
+    @media (min-width: 575px) {
+        .basket-container {
+            width: 50px;
+        }
+
+        .open-basket {
+            width: 350px;
+        }
+    }
+
+    @media (max-width: 575px) {
+        .basket-container {
+            width: 50px;
+        }
+
+        .open-basket {
+            width: 300px;
+        }
+    }
+</style>
+    
+{% endblock css %}
+    
+
+{% block body %}
+
+<div class="row">
+    <div class="col-8">
+        <div class="body-container">
+            <div class="products">
+                
+                {% for shop in shops %}
+                <div class="product">
+                    <img style="width: 100px;height: 60px; object-fit: cover;" src="{{ shop.product.image.url }}">
+                    <h2>{{ shop.product.title }} <span style="margin-left: 50px; color: rgb(46, 46, 46);">₺{{ shop.fiyat }}</span></h2>
+                    <p>Stok: {{ shop.product.stok }}</p>
+                    <div class="clear"></div>
+                    <div class="d-flex">
+                        <form class="" action="" method="POST">
+                            {% csrf_token %}
+                            <button class="basket-add" type="submit">Güncelle</button>
+                            <label for="">Adet: </label>
+                            <input style="width: 50px;" type="number" name="adet" id="adet" value="{{ shop.adet }}">
+                            <input type="hidden" name="product-id" value="{{ shop.id }}">
+                        </form>
+                        <a href="{% url 'ShopingDelete' shop.id %}" class="btn btn-primary">X</a>
+                    </div>
+
+                </div>
+                {% endfor %}
+                    
+        
+            </div>
+        </div>
+    </div>
+
+    <div class="col-3">
+        <h3>Toplam Fiyat: ₺{{ toplam }}</h3>
+    </div>
+</div>
+
+{% endblock body %}
+    

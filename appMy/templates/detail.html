@@ -10,13 +10,27 @@
                 </div>
             </div>
     
-            <div class="col-5 p-5" style="box-shadow: 2px 2px 8px black;">
-                <span class="fs-2 me-5">{{ card.title }}</span>
-                <a href="#">satıcı: {{ card.user }}</a>
-                <hr>
-                <div class="fs-3">{{ card.priece }} TL</div>
-                <hr><br>
-                <div class="">{{ card.text }}</div>
+            <div class="col-5 p-5 d-flex justify-content-between flex-column" style="box-shadow: 2px 2px 8px black;">
+                <div>
+                    <span class="fs-2 me-5">{{ card.title }}</span>
+                    <a href="#">satıcı: {{ card.user }}</a>
+                    <hr>
+                    <div class="fs-3">{{ card.priece }} TL</div>
+                    <hr><br>
+                    <div class="">{{ card.text }}</div>
+                </div>
+                
+                <div>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <label for="adet">Adet:</label>
+                        <input type="number" name="adet" id="adet" min="1" max="10"><br><br>
+                        <button class="btn btn-primary" name="button" value="hemenbtn" type="submit">Hemen Al</button>
+                        <button class="btn btn-primary" name="button" value="sepetbtn" type="submit">Sepete Ekle</button>
+                    </form>
+                </div>
+
+
             </div>
         </div>
         <hr>
@@ -57,7 +71,7 @@
                         <textarea class="form-control" name="comment" rows="4" placeholder="Yorum"></textarea>
                     </div>
     
-                    <button type="submit" class="btn btn-primary btn-block mb-4">Paylaş</button>
+                    <button name="button" value="commentbtn" type="submit" class="btn btn-primary btn-block mb-4">Paylaş</button>
                 </form>
             </div>
         </div>

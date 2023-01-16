@@ -23,8 +23,16 @@
                         <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Ara</button>
                     </form>
-                    <li class="btn mx-2 btn-primary">Giriş Yap</li>
-                    <li class="btn mx-2  btn-primary">Kaydol</li>
+                    
+                    {% if request.user.is_authenticated %}
+                        
+                    <li class="btn mx-2 btn-primary"><a class="text-white" href="{% url 'logoutUser' %}">Çıkış Yap</a></li>
+                    {% else %}
+                    <li class="btn mx-2 btn-primary"><a class="text-white" href="{% url 'loginUser' %}">Giriş Yap</a></li>
+                    <li class="btn mx-2 btn-primary"><a class="text-white" href="">Kaydol</a></li>
+                        
+                    {% endif %}
+                        
                 </ul>
                 
             </div>

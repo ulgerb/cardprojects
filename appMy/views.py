@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from .models import *
 from django.db.models import Q # ve veya işlemlerini kullanılmasına izin verir
 from django.core.paginator import Paginator
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 
 def index(request):
-    cards = Card.objects.all()
+    cards = Card.objects.all().order_by("?")[:3] # order_by sıralama, [:3] parçalama
     kategoriler = Category.objects.all()
     
     query = request.GET.get('q')
@@ -21,6 +22,7 @@ def index(request):
     }
     return render(request,'index.html',context)
 
+
 def Detail(request,id):
     card = Card.objects.get(id=id) # tek ürün istiyoruz
     comments = Comments.objects.filter(card = id)
@@ -30,15 +32,21 @@ def Detail(request,id):
         cards = Card.objects.filter(Q(title__icontains=query) | Q(text__icontains=query))
         return render(request,'allcard.html',{'cards':cards})
         
+
+    if request.method == "POST":
+        if request.POST["button"] == "sepetbtn":
+            adet = request.POST["adet"]
+            print(adet)
     
     if request.method == "POST": 
-        name = request.POST["name"]
-        email = request.POST["email"]
-        comment = request.POST["comment"]
-        
-        comm = Comments(name=name, email=email, comment=comment,card=card )
-        comm.save()
-        return HttpResponseRedirect('/detay/{}/'.format(id))  # yönlendirme
+        if request.POST["button"] == "commentbtn":
+            name = request.POST["name"]
+            email = request.POST["email"]
+            comment = request.POST["comment"]
+            
+            comm = Comments(name=name, email=email, comment=comment,card=card )
+            comm.save()
+            return HttpResponseRedirect('/detay/{}/'.format(id))  # yönlendirme
         
         
     context={
@@ -70,3 +78,39 @@ def allCard(request,id="all"):
     }
     return render(request, 'allcard.html', context)
 
+# USER
+def loginUser(request):
+    context = {}
+
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+
+        user = authenticate(username=username, password=password)
+        
+        if user is not None:
+            login(request,user)
+            return redirect("index")
+    
+    return render(request,'users/login.html',context)
+
+
+def logoutUser(request):
+    context = {}
+
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect("index")
+
+    return render(request, 'users/login.html', context)
+
+def logoutUser(request):
+    logout(request)
+
+    return redirect('loginUser')
