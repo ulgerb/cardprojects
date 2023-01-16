@@ -17,7 +17,13 @@ class CardAdmin(admin.ModelAdmin):
     # date_hierarchy = ''
     ordering = ('title',)
 
+class SepetAdmin(admin.ModelAdmin):
+    '''Admin View for '''
+
+    list_display = ('user','product', 'price', 'adet')
+    
 
 admin.site.register(Card, CardAdmin)
 admin.site.register(Category)
 admin.site.register(Comments) 
+admin.site.register(Sepet, SepetAdmin)

@@ -18,6 +18,7 @@ class Card(models.Model):
     priece = models.IntegerField(("Fiyat"), null=True)
     image = models.FileField(("Card Resim"), upload_to='', max_length=100)
     date_now = models.DateTimeField(("Paylaşım Zamanı"), auto_now_add=True)
+    stok = models.IntegerField(("Stok Sayısı"), null=True)
     
     def __str__(self):
         return self.title
@@ -30,3 +31,12 @@ class Comments(models.Model):
 
     def __str__(self):
         return self.name
+
+class Sepet(models.Model):
+    user = models.ForeignKey(User, verbose_name=("Kullanıcı"), on_delete=models.CASCADE)
+    product = models.ForeignKey(Card, verbose_name=("Ürün"), on_delete=models.CASCADE)
+    adet = models.IntegerField(("Adet"))
+    price = models.FloatField(("Toplam Ürün Fiyatı"))
+
+    def __str__(self):
+        return self.user.username

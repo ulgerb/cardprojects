@@ -25,7 +25,7 @@
                     </form>
                     
                     {% if request.user.is_authenticated %}
-                        
+                    <li class="btn mx-2 btn-primary"><a class="text-white" href="{% url 'sepetUser' %}">Sepet</a></li>
                     <li class="btn mx-2 btn-primary"><a class="text-white" href="{% url 'logoutUser' %}">Çıkış Yap</a></li>
                     {% else %}
                     <li class="btn mx-2 btn-primary"><a class="text-white" href="{% url 'loginUser' %}">Giriş Yap</a></li>

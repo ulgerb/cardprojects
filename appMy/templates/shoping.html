@@ -221,25 +221,28 @@
         <div class="body-container">
             <div class="products">
                 
-                {% for shop in shops %}
+                
+                {% for spt in sepetler %}
                 <div class="product">
-                    <img style="width: 100px;height: 60px; object-fit: cover;" src="{{ shop.product.image.url }}">
-                    <h2>{{ shop.product.title }} <span style="margin-left: 50px; color: rgb(46, 46, 46);">₺{{ shop.fiyat }}</span></h2>
-                    <p>Stok: {{ shop.product.stok }}</p>
+                    <img style="width: 100px;height: 60px; object-fit: cover;" src="{{ spt.product.image.url }}">
+                    <h2> <span style="margin-left: 50px; color: rgb(46, 46, 46);">₺ {{ spt.price }}</span></h2>
+                    <p>Stok: {{ spt.product.stok }}</p>
                     <div class="clear"></div>
                     <div class="d-flex">
                         <form class="" action="" method="POST">
                             {% csrf_token %}
                             <button class="basket-add" type="submit">Güncelle</button>
-                            <label for="">Adet: </label>
-                            <input style="width: 50px;" type="number" name="adet" id="adet" value="{{ shop.adet }}">
-                            <input type="hidden" name="product-id" value="{{ shop.id }}">
+                            <label for="">Adet: {{ spt.adet }}</label>
+                            <input style="width: 50px;" type="number" name="adet" id="adet" value="">
+                            <input type="hidden" name="product-id" value="">
                         </form>
-                        <a href="{% url 'ShopingDelete' shop.id %}" class="btn btn-primary">X</a>
+                        <a href="" class="btn btn-primary">X</a>
                     </div>
 
                 </div>
                 {% endfor %}
+                    
+                
                     
         
             </div>
@@ -247,7 +250,7 @@
     </div>
 
     <div class="col-3">
-        <h3>Toplam Fiyat: ₺{{ toplam }}</h3>
+        <h3>Toplam Fiyat: ₺</h3>
     </div>
 </div>
 

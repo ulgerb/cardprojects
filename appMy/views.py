@@ -35,8 +35,19 @@ def Detail(request,id):
 
     if request.method == "POST":
         if request.POST["button"] == "sepetbtn":
-            adet = request.POST["adet"]
-            print(adet)
+            adet = int(request.POST["adet"])
+            if Sepet.objects.filter(user=request.user, product=card).exists():
+                sepet = Sepet.objects.filter(user=request.user).get(product=card)
+                sepet.adet += adet 
+                sepet.price += adet * card.priece
+                sepet.save()
+                return redirect('index')
+            else:
+                price = adet * card.priece
+                sepet = Sepet(user = request.user, product=card, adet=adet, price=price)
+                sepet.save()
+                return redirect('index')
+            
     
     if request.method == "POST": 
         if request.POST["button"] == "commentbtn":
@@ -77,6 +88,14 @@ def allCard(request,id="all"):
         "kategoriler": kategoriler,
     }
     return render(request, 'allcard.html', context)
+
+def sepetUser(request):
+    sepetler = Sepet.objects.filter(user=request.user)
+    
+    context = {
+        "sepetler": sepetler
+    }
+    return render(request,'shoping.html', context)
 
 # USER
 def loginUser(request):

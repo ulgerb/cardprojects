@@ -25,6 +25,7 @@ urlpatterns = [
     path('',index,name='index'),
     path('detay/<id>/', Detail, name='detail'),
     path('allcard/<id>/', allCard, name='allcard'),
+    path('sepetUser/', sepetUser, name="sepetUser"),
     # USER
     path('login/', loginUser, name="loginUser"),
     path('logout/', logoutUser, name="logoutUser"),
