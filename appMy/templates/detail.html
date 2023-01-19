@@ -20,6 +20,12 @@
                     <div class="">{{ card.text }}</div>
                 </div>
                 
+                
+                {% if hata %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ hata }}
+                    </div>
+                {% else %}
                 <div>
                     <form action="" method="POST">
                         {% csrf_token %}
@@ -29,6 +35,8 @@
                         <button class="btn btn-primary" name="button" value="sepetbtn" type="submit">Sepete Ekle</button>
                     </form>
                 </div>
+                {% endif %}
+                    
 
 
             </div>

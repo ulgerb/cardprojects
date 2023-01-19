@@ -26,7 +26,9 @@ urlpatterns = [
     path('detay/<id>/', Detail, name='detail'),
     path('allcard/<id>/', allCard, name='allcard'),
     path('sepetUser/', sepetUser, name="sepetUser"),
+    path('sepetDelete/<id>/', sepetDelete, name="sepetDelete"),
     # USER
     path('login/', loginUser, name="loginUser"),
     path('logout/', logoutUser, name="logoutUser"),
+    path('register/', registerUser, name="registerUser"),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) 

@@ -20,7 +20,7 @@ class CardAdmin(admin.ModelAdmin):
 class SepetAdmin(admin.ModelAdmin):
     '''Admin View for '''
 
-    list_display = ('user','product', 'price', 'adet')
+    list_display = ('user','product', 'price', 'adet','id')
     
 
 admin.site.register(Card, CardAdmin)

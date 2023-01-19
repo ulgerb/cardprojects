@@ -225,18 +225,33 @@
                 {% for spt in sepetler %}
                 <div class="product">
                     <img style="width: 100px;height: 60px; object-fit: cover;" src="{{ spt.product.image.url }}">
-                    <h2> <span style="margin-left: 50px; color: rgb(46, 46, 46);">₺ {{ spt.price }}</span></h2>
+                    <h2> {{ spt.product.title }} <span style="margin-left: 50px; color: rgb(46, 46, 46);">₺ {{ spt.price }}</span></h2>
                     <p>Stok: {{ spt.product.stok }}</p>
                     <div class="clear"></div>
-                    <div class="d-flex">
+                    <div class="d-flex justify-content-between">
                         <form class="" action="" method="POST">
                             {% csrf_token %}
                             <button class="basket-add" type="submit">Güncelle</button>
-                            <label for="">Adet: {{ spt.adet }}</label>
-                            <input style="width: 50px;" type="number" name="adet" id="adet" value="">
-                            <input type="hidden" name="product-id" value="">
+                            <label for="">Adet: </label>
+                            <input style="width: 50px;" type="number" min="0" max="10" name="adet" id="adet" value="{{ spt.adet }}">
+                            <input type="hidden" name="product-id" value="{{ spt.product.id }}">
                         </form>
-                        <a href="" class="btn btn-primary">X</a>
+                        <a class="btn btn-primary h-50" data-bs-toggle="modal" data-bs-target="#sil{{ spt.id }}">X</a>
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="sil{{ spt.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title text-dark fs-5" id="exampleModalLabel">Sepetten kaldırmak istediğine emin misin? </h1>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a class="btn btn-danger" data-bs-dismiss="modal">Hayır</a>
+                                        <a href="{% url 'sepetDelete' spt.id %}" class="btn btn-primary">Evet</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -250,7 +265,7 @@
     </div>
 
     <div class="col-3">
-        <h3>Toplam Fiyat: ₺</h3>
+        <h3>Toplam Fiyat: ₺{{ toplam }}</h3>
     </div>
 </div>
 
